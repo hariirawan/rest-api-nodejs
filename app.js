@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 
 const productRoutes = require('./src/routes/products');
 const orderRoutes = require('./src/routes/orders');
+const adminRoutes = require('./src/routes/admin');
 
 mongoose.connect("mongodb://127.0.0.1:27017/rest-api-shop")
 
@@ -20,7 +21,7 @@ app.use((req, res, next) => {
    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
 
    if(req.method === 'OPTIONS') {
-      res.header('Access-Control-Allow-Headers','PUT,POST,PATCH,DELETE,GET');
+      res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
       return res.status(200).json({});
    }
    next();
@@ -29,6 +30,8 @@ app.use((req, res, next) => {
 
 app.use('/products', productRoutes);
 app.use('/orders', orderRoutes);
+app.use('/admin', adminRoutes);
+
 
 app.use((req, res, next) => {
    const error = new Error('Not found');
